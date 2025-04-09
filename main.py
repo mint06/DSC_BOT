@@ -1,12 +1,13 @@
+import os
 import discord
 from discord.ext import commands
 from discord import app_commands
 
-intents = discord.Intents.default()
-intents.messages = True
-intents.message_content = True  # สำคัญมาก!
+from myserver import server_on
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+
+
 
 # 🔒 รายชื่อ channel ที่จะ "ล็อก" ไม่ให้พิมพ์ (ใส่เป็นชื่อหรือ ID ก็ได้)
 locked_channels = ["ล็อกแชท", "secret-channel"]  # หรือใส่เป็น ["123456789012345678"]
@@ -54,5 +55,5 @@ async def unlock(ctx):
         await ctx.send("ปลดล็อกห้องนี้เรียบร้อยแล้ว 🔓")
     else:
         await ctx.send("ห้องนี้ยังไม่ได้ถูกล็อกนะ")
-
-bot.run("YOUR_DISCORD_BOT_TOKEN")
+server_on()  # เรียกใช้ฟังก์ชัน server_on() เพื่อเริ่มเซิร์ฟเวอร์ Flask
+bot.run(os.getenv('TOKEN'))  # ใช้ Token จาก environment variable
